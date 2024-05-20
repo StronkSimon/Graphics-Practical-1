@@ -5,7 +5,7 @@ using OpenTK.Mathematics;
 namespace RayTracer
 {
 
-public abstract class Primitive
+    public abstract class Primitive
     {
         public Vector3 Color { get; set; }
 
