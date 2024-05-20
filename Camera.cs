@@ -19,8 +19,8 @@ namespace RayTracer
 
         {
             this.position = position;
-            this.lookAtDirection = lookAtDirection.Normalized();
-            this.upDirection = upDirection.Normalized();
+            this.lookAtDirection = lookAtDirection;
+            this.upDirection = upDirection;
             this.fieldOfView = fieldOfView;
             this.aspectRatio = aspectRatio;
             this.screenCorners = new Vector3[4];
@@ -29,12 +29,10 @@ namespace RayTracer
 
         private void UpdateScreenCorners()
         {
-            float vertAngleRad = MathHelper.DegreesToRadians(fieldOfView);
-            float horizAngleRad = MathHelper.DegreesToRadians(fieldOfView * aspectRatio);
 
             Vector3 forward = lookAtDirection.Normalized();
-            Vector3 right = Vector3.Cross(forward, upDirection).Normalized();
-            Vector3 up = Vector3.Cross(right, forward).Normalized();
+            Vector3 right = Vector3.Cross(upDirection, forward).Normalized();
+            Vector3 up = Vector3.Cross(forward, right).Normalized();
 
             Vector3 center = position + forward * fieldOfView;
             Vector3 topLeft = center + up - aspectRatio * right;
@@ -46,7 +44,16 @@ namespace RayTracer
             screenCorners[1] = topRight;
             screenCorners[2] = bottomLeft;
             screenCorners[3] = bottomRight;
-            
+
+        }
+        public Vector3 RayDirection(float a, float b)
+        {
+            Vector3 u = screenCorners[1] - screenCorners[0];
+            Vector3 v = screenCorners[2] - screenCorners[0];
+            Vector3 p = screenCorners[0] + a * u + b * v;
+            Vector3 result = (p - position).Normalized();
+            return result;
+
         }
     }
 }

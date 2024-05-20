@@ -203,7 +203,7 @@ namespace RayTracer
         public int TY(float y)
         {
             float aspectRatio = ((float)height / (float)width);
-            float tY = (height / 2) - (y * ((float)width / 10f));
+            float tY = ((height / 2) - (y * ((float)width / 10f)));
             return (int)tY;
         }
     }
