@@ -1,4 +1,6 @@
-﻿using OpenTK.Mathematics;
+
+using System;
+using OpenTK.Mathematics;
 
 namespace RayTracer
 {

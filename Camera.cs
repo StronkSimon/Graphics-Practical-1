@@ -1,25 +1,31 @@
-﻿using OpenTK.Mathematics;
+
+﻿using System;
+using OpenTK.Mathematics;
 
 namespace RayTracer
 {
     public class Camera
     {
-        public Vector3 Position { get; set; }
-        public Vector3 LookAtDirection { get; set; }
-        public Vector3 UpDirection { get; set; }
-        public float FieldOfView { get; set; }
-        public float AspectRatio { get; set; }
-        public float NearPlane { get; set; }
-        public Vector3[] ScreenCorners { get; private set; }
 
-        public Camera(Vector3 position, Vector3 lookAtDirection, Vector3 upDirection, float fieldOfView, float aspectRatio, float nearPlane)
+        public Vector3 position { get; set; }
+        public Vector3 lookAtDirection { get; set; }
+        public Vector3 upDirection { get; set; }
+        public float fieldOfView { get; set; }
+        public float aspectRatio { get; set; }
+        public Plane screenPlane { get; set; }
+        public Vector3[] screenCorners { get; private set; }
+
+        public Camera(Vector3 position, Vector3 lookAtDirection, Vector3 upDirection, float fieldOfView, float aspectRatio)
+
         {
             Position = position;
             LookAtDirection = lookAtDirection.Normalized();
             UpDirection = upDirection.Normalized();
-            FieldOfView = fieldOfView;
+
+            d = fieldOfView;
             AspectRatio = aspectRatio;
-            NearPlane = nearPlane;
+            screenPlane = new Plane()
+
             ScreenCorners = new Vector3[4];
             UpdateScreenCorners();
         }

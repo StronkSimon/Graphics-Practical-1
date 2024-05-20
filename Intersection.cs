@@ -6,10 +6,10 @@ namespace RayTracer
 	public class Intersection
 	{
 		public int intersectionDistance;
-		public Primitive;
+		public Primitive primitive;
 		//normal Primitive.normal??
-	
-		public Intersection()
+
+    public Intersection()
 		{
 		}
 	}
