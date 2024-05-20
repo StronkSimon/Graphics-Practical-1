@@ -56,8 +56,7 @@ namespace RayTracer
         {
             Normal = normal;
             DistanceToOrigin = distanceToOrigin;
-            Color = color;\
-            
+            Color = color;
         }
 
        /* public override bool Intersect(Ray ray, out float t)

@@ -195,15 +195,15 @@ namespace RayTracer
         }
         public int TX(float x)
         {
-            float tX = x + 2;
-            tX = tX * (width / 4);
+            float tX = x + 5;
+            tX = tX * ((float)width / 10f);
             return (int)tX;
         }
 
         public int TY(float y)
         {
             float aspectRatio = ((float)height / (float)width);
-            float tY = (height / 2) - (y * (width / 4));
+            float tY = (height / 2) - (y * ((float)width / 10f));
             return (int)tY;
         }
     }
