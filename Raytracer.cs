@@ -10,14 +10,17 @@ namespace RayTracer
     {
         public Scene scene;
         public Camera camera;
-        public Surface surface;
+        public Surface screen;
 
-        Raytracer()
+        public Raytracer(Surface screen)
         {
+            this.scene = new Scene();
+            this.camera = new Camera((0,0,0),(0,0,1),(0,1,0),1,1,1);
+            this.screen = screen;
 
         }
 
-        public long Render()
+        public void Render()
         {
 
         }
