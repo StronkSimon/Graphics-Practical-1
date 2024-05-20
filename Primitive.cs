@@ -5,7 +5,7 @@ using OpenTK.Mathematics;
 namespace RayTracer
 {
 
-public abstract class Primitive
+    public abstract class Primitive
     {
         public Vector3 Color { get; set; }
 
@@ -58,8 +58,7 @@ public abstract class Primitive
         {
             Normal = normal;
             DistanceToOrigin = distanceToOrigin;
-            Color = color;\
-            
+            Color = color;
         }
 
        /* public override bool Intersect(Ray ray, out float t)

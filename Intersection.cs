@@ -5,12 +5,12 @@ namespace RayTracer
 {
 	public class Intersection
 	{
-		public int intersectionDistance;
-		public Primitive primitive;
+		//public int intersectionDistance;
+		//public Primitive primitive;
 		//normal Primitive.normal??
 
-    public Intersection()
+    /*public Intersection()
 		{
-		}
+		}*/
 	}
 }
