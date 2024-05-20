@@ -1,3 +1,4 @@
+
 ﻿using System;
 using OpenTK.Mathematics;
 
@@ -5,6 +6,7 @@ namespace RayTracer
 {
     public class Camera
     {
+
         public Vector3 position { get; set; }
         public Vector3 lookAtDirection { get; set; }
         public Vector3 upDirection { get; set; }
@@ -14,6 +16,7 @@ namespace RayTracer
         public Vector3[] screenCorners { get; private set; }
 
         public Camera(Vector3 position, Vector3 lookAtDirection, Vector3 upDirection, float fieldOfView, float aspectRatio)
+
         {
             this.position = position;
             this.lookAtDirection = lookAtDirection.Normalized();
