@@ -11,7 +11,7 @@
 #### Minimum requirements implemented:  
 [ ] Camera: position and orientation controls, field of view in degrees  
 Controls: ...  
-[ ] Primitives: plane, sphere  
+[X] Primitives: plane, sphere  
 [ ] Lights: at least 2 point lights, additive contribution, shadows without "acne"  
 [ ] Diffuse shading: (N.L), distance attenuation  
 [ ] Phong shading: (R.V) or (N.H), exponent  

@@ -62,7 +62,7 @@ namespace RayTracer
         public OpenTKApp()
             : base(GameWindowSettings.Default, new NativeWindowSettings()
             {
-                ClientSize = new Vector2i(1024, 1024),
+                ClientSize = new Vector2i(1920, 1080),
                 Profile = allowPrehistoricOpenGL ? ContextProfile.Compatability : ContextProfile.Core,
                 Flags = allowPrehistoricOpenGL ? ContextFlags.Default : ContextFlags.ForwardCompatible,
             })
