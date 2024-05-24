@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Reflection.Metadata;
+using OpenTK.Mathematics;
 
 namespace RayTracer
 {
 	public class Intersection
 	{
-		//public int intersectionDistance;
-		//public Primitive primitive;
-		//normal Primitive.normal??
+		public float IntersectionDistance;
+		public Primitive Primitive;
 
-    /*public Intersection()
+		public Intersection(float intersectionDistance,Primitive primitive)
 		{
-		}*/
+			this.IntersectionDistance = intersectionDistance;
+			this.Primitive = primitive;
+		}
 	}
 }

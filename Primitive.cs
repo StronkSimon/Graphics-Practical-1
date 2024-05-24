@@ -10,7 +10,7 @@ namespace RayTracer
         public Vector3 Color { get; set; }
 
 
-       /* public abstract bool Intersect(Ray ray, out float t);*/
+        public abstract float Intersect(Ray ray);
     }
 
     public class Sphere : Primitive
@@ -25,31 +25,26 @@ namespace RayTracer
             Color = color;
         }
 
-        /*public override bool Intersect(Ray ray, out float t)
+        public override float Intersect(Ray ray)
         {
-            Vector3 oc = ray.Origin - Position;  // Vector from ray origin to sphere center
-            float a = Vector3.Dot(ray.Direction, ray.Direction);
-            float b = 2.0f * Vector3.Dot(oc, ray.Direction);
-            float c = Vector3.Dot(oc, oc) - Radius * Radius;
-            float discriminant = b * b - 4 * a * c;
+            Vector3 c = Position - ray.E;
+            float t = Vector3.Dot(c, ray.Direction);
+            Vector3 q = c - t * ray.Direction;
+            float p2 = q.LengthSquared;
 
-            if (discriminant < 0)
+            if (!(p2 > Radius * Radius))
             {
-                t = 0;
-                return false;  // No intersection
+                t -= MathF.Sqrt(Radius * Radius - p2);
+                return t;
             }
             else
             {
-                // Calculating the smallest positive t (closest intersection point)
-                float t0 = (-b - MathF.Sqrt(discriminant)) / (2 * a);
-                float t1 = (-b + MathF.Sqrt(discriminant)) / (2 * a);
-                t = (t0 < t1 && t0 >= 0) ? t0 : t1;
-                return t >= 0;
+                return t = ray.Distance;
             }
-        }*/
+        }
     }
 
-    public class Plane : Primitive
+    /*public class Plane : Primitive
     {
         public Vector3 Normal { get; set; }
         public float DistanceToOrigin { get; set; }
@@ -61,7 +56,7 @@ namespace RayTracer
             Color = color;
         }
 
-       /* public override bool Intersect(Ray ray, out float t)
+        public override bool Intersect(Ray ray, out float t)
         {
             float denom = Vector3.Dot(this.Normal, ray.Direction);
             if (Math.Abs(denom) > 1e-6) // Ensure not parallel
@@ -73,6 +68,6 @@ namespace RayTracer
             }
             t = 0;
             return false;
-        }*/
-    } 
+        }
+    }*/
 }
