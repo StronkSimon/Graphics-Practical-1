@@ -48,7 +48,6 @@ namespace RayTracer
             scene.primitives.Add(new Plane((0, -1f, 0), 5f, (200f / 255f, 200f / 255f, 0), 0.5f));
             scene.primitives.Add(new Plane((1f, 0, 0), 5f, (1f, 1f, 0), 0.5f));
             scene.primitives.Add(new Plane((-1f, 0, 0), 5f, (1f, 1f, 0), 0.5f));
-            //scene.primitives.Add(new Plane((0, 0, -1f), 5f, (1f, 1f, 1f), 1f));
 
             scene.lightSources.Add(new Light((4f, 1f, 0f), (1f, 1f, 1f)));
             scene.lightSources.Add(new Light((-2f, 2f, -1f), (1f, 1f, 1f)));
