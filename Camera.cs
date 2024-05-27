@@ -29,22 +29,24 @@ namespace RayTracer
 
         private void UpdateScreenCorners()
         {
+            float halfFov = (float)Math.Tan(fieldOfView / 2.0f);
+            float screenHeight = halfFov * 2.0f;
+            float screenWidth = screenHeight * aspectRatio;
 
             Vector3 forward = lookAtDirection.Normalized();
             Vector3 right = Vector3.Cross(upDirection, forward).Normalized();
             Vector3 up = Vector3.Cross(forward, right).Normalized();
 
-            Vector3 center = position + forward * fieldOfView;
-            Vector3 topLeft = center + up - aspectRatio * right;
-            Vector3 topRight = center + up + aspectRatio * right;
-            Vector3 bottomLeft = center - up - aspectRatio * right;
-            Vector3 bottomRight = center - up + aspectRatio * right;
+            Vector3 center = position + forward;
+            Vector3 topLeft = center + (up * screenHeight / 2.0f) - (right * screenWidth / 2.0f);
+            Vector3 topRight = center + (up * screenHeight / 2.0f) + (right * screenWidth / 2.0f);
+            Vector3 bottomLeft = center - (up * screenHeight / 2.0f) - (right * screenWidth / 2.0f);
+            Vector3 bottomRight = center - (up * screenHeight / 2.0f) + (right * screenWidth / 2.0f);
 
             screenCorners[0] = topLeft;
             screenCorners[1] = topRight;
             screenCorners[2] = bottomLeft;
             screenCorners[3] = bottomRight;
-
         }
         public Vector3 RayDirection(float a, float b)
         {
@@ -95,13 +97,13 @@ namespace RayTracer
 
         public void IncreaseFOV(float delta)
         {
-            fieldOfView += delta;
+            fieldOfView = Math.Min(fieldOfView + delta, (float)Math.PI);
             UpdateScreenCorners();
         }
 
         public void DecreaseFOV(float delta)
         {
-            fieldOfView -= delta;
+            fieldOfView = Math.Max(fieldOfView - delta, 0.1f);
             UpdateScreenCorners();
         }
     }
