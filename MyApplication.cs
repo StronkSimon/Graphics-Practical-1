@@ -1,3 +1,5 @@
+using OpenTK.Graphics.OpenGL;
+
 namespace RayTracer
 {
     public class MyApplication

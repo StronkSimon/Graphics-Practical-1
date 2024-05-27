@@ -25,6 +25,15 @@ namespace RayTracer
 
         }
 
+        public void DisplayCameraInfo()
+        {
+            string position = $"Pos: {camera.position.X:F2}, {camera.position.Y:F2}, {camera.position.Z:F2}";
+            string fov = $"FOV: {camera.fieldOfView * (180 / Math.PI):F2} Degrees";
+
+            screen.Print(position, 10, 20, Color.Red.ToArgb());
+            screen.Print(fov, 10, 50, Color.Blue.ToArgb());
+        }
+
         public void Render()
         {
             this.scene = new Scene();
@@ -41,7 +50,6 @@ namespace RayTracer
             scene.primitives.Add(new Plane((1f, 0, 0), 5f, (1f, 1f, 0), 0.5f, false));
             scene.primitives.Add(new Plane((-1f, 0, 0), 5f, (1f, 1f, 0), 0.5f, false));
             scene.primitives.Add(new Plane((0, 0f, -1f), 20f, (200f / 255f, 200f / 255f, 0), 0f, false));
-
 
             scene.lightSources.Add(new Light((4f, 1f, 0f), (1f, 1f, 1f)));
             scene.lightSources.Add(new Light((-2f, 2f, -1f), (1f, 1f, 1f)));
@@ -73,8 +81,10 @@ namespace RayTracer
                     screen.Plot(i, j, (int)(FinalColor.X * 255) + ((int)(FinalColor.Y * 255) << 8) + ((int)(FinalColor.Z * 255) << 16)); //translate to correct BGR
                 }
             }
+            DisplayCameraInfo();
             //Debug();
         }
+
 
         public void Debug()
         {

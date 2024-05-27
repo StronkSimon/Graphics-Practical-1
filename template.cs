@@ -62,7 +62,9 @@ namespace RayTracer
         public OpenTKApp()
             : base(GameWindowSettings.Default, new NativeWindowSettings()
             {
+
                 ClientSize = new Vector2i(1024, 1024),
+
                 Profile = allowPrehistoricOpenGL ? ContextProfile.Compatability : ContextProfile.Core,
                 Flags = allowPrehistoricOpenGL ? ContextFlags.Default : ContextFlags.ForwardCompatible,
             })
@@ -72,6 +74,7 @@ namespace RayTracer
         protected override void OnLoad()
         {
             base.OnLoad();
+
             // called during application initialization
             GL.ClearColor(0, 0, 0, 0);
             GL.Disable(EnableCap.DepthTest);
@@ -187,6 +190,10 @@ namespace RayTracer
                 app.raytracer.camera.MoveLeft(0.1f);
             if (keyboard[Keys.D])
                 app.raytracer.camera.MoveRight(0.1f);
+            if (keyboard[Keys.E])
+                app.raytracer.camera.MoveUp(0.1f);
+            if (keyboard[Keys.Q])
+                app.raytracer.camera.MoveDown(0.1f);
 
             // FOV adjustment
             if (keyboard[Keys.I])
