@@ -12,11 +12,11 @@
 [ ] Camera: position and orientation controls, field of view in degrees  
 Controls: ...  
 [X] Primitives: plane, sphere  
-[ ] Lights: at least 2 point lights, additive contribution, shadows without "acne"  
-[ ] Diffuse shading: (N.L), distance attenuation  
-[ ] Phong shading: (R.V) or (N.H), exponent  
+[X] Lights: at least 2 point lights, additive contribution, shadows without "acne"  
+[X] Diffuse shading: (N.L), distance attenuation  
+[X] Phong shading: (R.V) or (N.H), exponent  
 [ ] Diffuse color texture: only required on the plane primitive, image or procedural, (u,v) texture coordinates  
-[ ] Mirror reflection: recursive  
+[X] Mirror reflection: recursive  
 [ ] Debug visualization: sphere primitives, rays (primary, shadow, reflected, refracted)  
 
 #### Bonus features implemented:  
@@ -36,5 +36,5 @@ Note: [provide one measurement of speed/time with and without the acceleration s
 [ ] GPU implementation: using a fragment shader, CUDA, OptiX, RTX, DXR, or [fill in other method]  
 
 ##### Notes:  
-...  
+RecursionCap can be modified in the Raytracer class 
 
