@@ -82,6 +82,17 @@ namespace RayTracer
             UpdateScreenCorners();
         }
 
+        public void MoveUp(float distance)
+        {
+            position += upDirection.Normalized() * distance;
+            UpdateScreenCorners();
+        }
+        public void MoveDown(float distance)
+        {
+            position -= upDirection.Normalized() * distance;
+            UpdateScreenCorners();
+        }
+
         public void IncreaseFOV(float delta)
         {
             fieldOfView += delta;

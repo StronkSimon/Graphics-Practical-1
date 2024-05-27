@@ -25,6 +25,15 @@ namespace RayTracer
             
         }
 
+        public void DisplayCameraInfo()
+        {
+            string position = $"Pos: {camera.position.X:F2}, {camera.position.Y:F2}, {camera.position.Z:F2}";
+            string fov = $"FOV: {camera.fieldOfView * (180 / Math.PI):F2} Degrees";
+
+            screen.Print(position, 10, 20, Color.Red.ToArgb());
+            screen.Print(fov, 10, 50, Color.Blue.ToArgb());
+        }
+
         public void Render()
         {
             this.scene = new Scene();
@@ -73,6 +82,7 @@ namespace RayTracer
 
 
             }
+            DisplayCameraInfo();
             //Debug();
         }
 

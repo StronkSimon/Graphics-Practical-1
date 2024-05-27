@@ -10,7 +10,7 @@
 
 #### Minimum requirements implemented:  
 [X] Camera: position and orientation controls, field of view in degrees  
-Controls: W for forward, S for backward, A for left, D for right, U for decrease FOV and I for Increase FOV
+Controls: W for forward, S for backward, A for left, D for right, Q for down, E for up, U for decrease FOV and I for Increase FOV
 [X] Primitives: plane, sphere  
 [X] Lights: at least 2 point lights, additive contribution, shadows without "acne"  
 [X] Diffuse shading: (N.L), distance attenuation  
