@@ -53,7 +53,7 @@ namespace RayTracer
             scene.lightSources.Add(new Light((4f, 1f, 0f), (1f, 1f, 1f)));
             scene.lightSources.Add(new Light((-2f, 2f, -1f), (1f, 1f, 1f)));
             scene.lightSources.Add(new Light((0f, 4f, 4f), (1f, 1f, 1f)));
-            for (int i = 0; i < width; i++)
+            for (int i = 0; i < width/2; i++)
             {
                 for (int j = 0; j < height; j++)
                 {
@@ -79,12 +79,11 @@ namespace RayTracer
 
                     screen.Plot(i, j, (int)(FinalColor.X * 255) + ((int)(FinalColor.Y * 255) << 8) + ((int)(FinalColor.Z * 255) << 16)); //translate to correct BGR
                 }
-
-
             }
             DisplayCameraInfo();
             //Debug();
         }
+
 
         public void Debug()
         {
