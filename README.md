@@ -16,7 +16,7 @@
 [X] Phong shading: (R.V) or (N.H), exponent  
 [X] Diffuse color texture: only required on the plane primitive, image or procedural, (u,v) texture coordinates  
 [X] Mirror reflection: recursive  
-[ ] Debug visualization: sphere primitives, rays (primary, shadow, reflected, refracted)  
+[X] Debug visualization: sphere primitives, rays (primary, shadow, reflected, refracted)  
 
 #### Bonus features implemented:  
 [ ] Triangle primitives: single triangles or meshes  
