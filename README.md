@@ -5,8 +5,8 @@
 - Yoeri Hoebe 4769341  
 
 #### Formalities:  
-[ ] This readme.txt  
-[ ] Cleaned (no obj/bin folders)  
+[X] This readme.txt  
+[X] Cleaned (no obj/bin folders)  
 
 #### Minimum requirements implemented:  
 [X] Camera: position and orientation controls, field of view in degrees  

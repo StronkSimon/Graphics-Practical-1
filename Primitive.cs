@@ -1,28 +1,36 @@
-
-﻿using System;
 using OpenTK.Mathematics;
 
 namespace RayTracer
 {
-
+    // Base class for geometric primitives used in ray tracing.
     public abstract class Primitive
     {
+        // Color of the primitive.
         public Vector3 Color { get; set; }
+
+        // Specularity factor of the primitive, determining how shiny it appears.
         public float Specularity { get; set; }
 
-
+        // Method to calculate intersection of a ray with this primitive. Returns the distance from the ray origin to the intersection point.
         public abstract float Intersect(Ray ray);
 
+        // Method to compute the normal vector at the point of intersection.
         public abstract Vector3 IntersectToNorm(Vector3 intersect);
 
+        // Method to determine the color of the primitive at the intersection point.
         public abstract Vector3 PrimitiveColor(Vector3 intersection);
     }
 
-    public class Sphere : Primitive //Sphere primitive
+    // A sphere primitive.
+    public class Sphere : Primitive
     {
+        // Center position of the sphere.
         public Vector3 Position { get; set; }
+
+        // Radius of the sphere.
         public float Radius { get; set; }
 
+        // Constructor for sphere initializing position, radius, color, and specularity.
         public Sphere(Vector3 position, float radius, Vector3 color, float specularity)
         {
             Position = position;
@@ -31,44 +39,50 @@ namespace RayTracer
             Specularity = specularity;
         }
 
+        // Calculates ray-sphere intersection.
         public override float Intersect(Ray ray)
-        {   
-            Vector3 c = Position - ray.E;               //get the vector from the sphere center to the start of the ray
-            float t = Vector3.Dot(c, ray.Direction);    //use the cector c onto the ray direction to find the closest intersection from the ray
-            Vector3 q = c - t * ray.Direction;          //calculate the perpendicular distance vector from the ray to the sphere center
-            float p2 = q.LengthSquared;                 //get the squared length
+        {
+            Vector3 c = Position - ray.E; // Vector from ray start to sphere center.
+            float t = Vector3.Dot(c, ray.Direction); // Project c onto ray direction to find closest approach.
+            Vector3 q = c - t * ray.Direction; // Vector from closest approach to sphere center.
+            float p2 = q.LengthSquared; // Squared length of q.
 
-            if (!(p2 > Radius * Radius))                // if the squared perpendicular distance is less than or equal to the squared radius,                                       
-            {                                           // the ray intersects the sphere
-                t -= MathF.Sqrt(Radius * Radius - p2);
-                return t;                               // adjust t taking in mind the distance from the closest intersection
-            }
-            else
+            // Check if there is an intersection.
+            if (!(p2 > Radius * Radius))
             {
-                return t = ray.Distance; 
+                t -= MathF.Sqrt(Radius * Radius - p2); // Calculate the intersection point.
+                return t;
             }
+            return ray.Distance; // No intersection.
         }
 
+        // Calculates normal at the point of intersection on the sphere.
         public override Vector3 IntersectToNorm(Vector3 intersect)
         {
-            Vector3 norm = intersect - this.Position; //get the normal of the sphere intersectoion
-            return Vector3.Normalize(norm);
+            Vector3 norm = intersect - Position; // Vector from center to intersection.
+            return Vector3.Normalize(norm); // Normalize the vector to get the normal.
         }
 
+        // Returns the color of the sphere.
         public override Vector3 PrimitiveColor(Vector3 intersection)
         {
-            return this.Color;
+            return Color;
         }
-
-
     }
 
+    // A plane primitive.
     public class Plane : Primitive
     {
+        // Normal vector of the plane.
         public Vector3 Normal { get; set; }
-        public float DistanceToOrigin { get; set; }
-        bool CheckBoard { get; set; }
 
+        // Distance of the plane from the origin along its normal.
+        public float DistanceToOrigin { get; set; }
+
+        // Toggle for checkered texture pattern.
+        public bool CheckBoard { get; set; }
+
+        // Constructor for plane initializing normal, distance to origin, color, specularity, and checkboard pattern flag.
         public Plane(Vector3 normal, float distanceToOrigin, Vector3 color, float specularity, bool checkboard)
         {
             Normal = normal;
@@ -78,45 +92,35 @@ namespace RayTracer
             CheckBoard = checkboard;
         }
 
+        // Calculates ray-plane intersection.
         public override float Intersect(Ray ray)
         {
-            float denom = Vector3.Dot(this.Normal, ray.Direction);
-                Vector3 p0 = this.Normal * this.DistanceToOrigin; // Point on the plane
-                Vector3 p0l0 = p0 - ray.E;
-                float t = Vector3.Dot(p0l0, this.Normal) / denom;
+            float denom = Vector3.Dot(Normal, ray.Direction);
+            Vector3 p0 = Normal * DistanceToOrigin; // Calculate point on the plane using its normal and distance.
+            Vector3 p0l0 = p0 - ray.E; // Vector from ray start to point on the plane.
+            float t = Vector3.Dot(p0l0, Normal) / denom; // Calculate intersection distance.
             return t;
         }
 
+        // Returns the normal of the plane.
         public override Vector3 IntersectToNorm(Vector3 intersect)
         {
-            return Vector3.Normalize(-intersect); //return the normal
+            return Vector3.Normalize(Normal); // The normal is constant for any point on the plane.
         }
 
+        // Calculates color at the intersection point on the plane.
         public override Vector3 PrimitiveColor(Vector3 intersection)
         {
             if (CheckBoard)
             {
-                float u = intersection.X / 1f; //calculate location
+                // Calculate texture coordinates.
+                float u = intersection.X / 1f;
                 float v = intersection.Z / 1f;
+                bool isDark = ((Math.Floor(u) + Math.Floor(v)) % 2) == 0; // Determine color based on position.
 
-                
-                bool isDark = ((Math.Floor(u) + Math.Floor(v)) % 2) == 0; //check if the current block is dark or light
-
-                
-                if (isDark)
-                {
-                    return this.Color*0.2f; // dark color
-                }
-                else
-                {
-                    return this.Color; // light color
-                }
+                return isDark ? Color * 0.2f : Color; // Dark or light color based on checkered pattern.
             }
-            else
-            {
-                return this.Color; // normal color
-            }
+            return Color; // Single color if not checkered.
         }
-
     }
 }
