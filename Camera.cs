@@ -55,5 +55,43 @@ namespace RayTracer
             return result;
 
         }
+
+        public void MoveForward(float distance)
+        {
+            position += lookAtDirection.Normalized() * distance;
+            UpdateScreenCorners();
+        }
+
+        public void MoveBackward(float distance)
+        {
+            position -= lookAtDirection.Normalized() * distance;
+            UpdateScreenCorners();
+        }
+
+        public void MoveRight(float distance)
+        {
+            Vector3 right = Vector3.Cross(upDirection, lookAtDirection.Normalized()).Normalized();
+            position += right * distance;
+            UpdateScreenCorners();
+        }
+
+        public void MoveLeft(float distance)
+        {
+            Vector3 left = -Vector3.Cross(upDirection, lookAtDirection.Normalized()).Normalized();
+            position += left * distance;
+            UpdateScreenCorners();
+        }
+
+        public void IncreaseFOV(float delta)
+        {
+            fieldOfView += delta;
+            UpdateScreenCorners();
+        }
+
+        public void DecreaseFOV(float delta)
+        {
+            fieldOfView -= delta;
+            UpdateScreenCorners();
+        }
     }
 }

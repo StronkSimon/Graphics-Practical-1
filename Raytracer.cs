@@ -20,7 +20,6 @@ namespace RayTracer
 
         public Raytracer(Surface screen)
         {
-            this.scene = new Scene();
             this.camera = new Camera((0,0,-4f),(0,0,1f),(0,1f,0),1.2f,(float)screen.width/(float)screen.height); //position-lookDirection-upDirection-Fov-aspectRatio
             this.screen = screen;
             
@@ -28,6 +27,7 @@ namespace RayTracer
 
         public void Render()
         {
+            this.scene = new Scene();
             int width = screen.width;
             int height = screen.height;
             

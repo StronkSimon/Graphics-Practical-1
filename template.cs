@@ -62,7 +62,7 @@ namespace RayTracer
         public OpenTKApp()
             : base(GameWindowSettings.Default, new NativeWindowSettings()
             {
-                ClientSize = new Vector2i(1024, 1024),
+                ClientSize = new Vector2i(256, 256),
                 Profile = allowPrehistoricOpenGL ? ContextProfile.Compatability : ContextProfile.Core,
                 Flags = allowPrehistoricOpenGL ? ContextFlags.Default : ContextFlags.ForwardCompatible,
             })
@@ -168,9 +168,36 @@ namespace RayTracer
         {
             base.OnUpdateFrame(e);
             // called once per frame; app logic
+
+            if (app == null)
+                return;
+
             var keyboard = KeyboardState;
-            if (keyboard[Keys.Escape]) terminated = true;
+
+            if (keyboard[Keys.Escape])
+                terminated = true;
+
+            
+            // Camera movement
+            if (keyboard[Keys.W])
+                app.raytracer.camera.MoveForward(0.1f);
+            if (keyboard[Keys.S])
+                app.raytracer.camera.MoveBackward(0.1f);
+            if (keyboard[Keys.A])
+                app.raytracer.camera.MoveLeft(0.1f);
+            if (keyboard[Keys.D])
+                app.raytracer.camera.MoveRight(0.1f);
+
+            // FOV adjustment
+            if (keyboard[Keys.I])
+                app.raytracer.camera.IncreaseFOV(0.05f);
+            if (keyboard[Keys.U])
+                app.raytracer.camera.DecreaseFOV(0.05f);
+
+            app.Init();
+            
         }
+
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             base.OnRenderFrame(e);
@@ -210,6 +237,7 @@ namespace RayTracer
             // tell OpenTK we're done rendering
             SwapBuffers();
         }
+
         public static void Main()
         {
             // entry point
