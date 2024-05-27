@@ -15,14 +15,14 @@ namespace RayTracer
         public Scene scene;
         public Camera camera;
         public Surface screen;
-        private int RecursionCount;
-        private int RecursionCap =10;
+        private int RecursionCount { get; set; }
+        private int RecursionCap = 10;
 
         public Raytracer(Surface screen)
         {
-            this.camera = new Camera((0,0,-4f),(0,0,1f),(0,1f,0),1.2f,(float)screen.width/(float)screen.height); //position-lookDirection-upDirection-Fov-aspectRatio
+            this.camera = new Camera((0, 0, -4f), (0, 0, 1f), (0, 1f, 0), 1.2f, (float)screen.width / (float)screen.height); //position-lookDirection-upDirection-Fov-aspectRatio
             this.screen = screen;
-            
+
         }
 
         public void Render()
@@ -30,16 +30,18 @@ namespace RayTracer
             this.scene = new Scene();
             int width = screen.width;
             int height = screen.height;
-            
-            scene.primitives.Add(new Sphere((0, 0, 0), 1.2f, (1f, 1f, 1f), 1f)); 
-            scene.primitives.Add(new Sphere((-2.5f, 2f, 2.0f), 1.2f, (0, 1f, 0), 0.5f));
+
+            scene.primitives.Add(new Sphere((0, 0, 0), 1.2f, (1f, 1f, 1f), 1f));
+            scene.primitives.Add(new Sphere((-2.5f, 2f, 2.0f), 1.2f, (0, 1f, 0),0f));
             scene.primitives.Add(new Sphere((2.5f, 2f, 3.0f), 2f, (0f, 0f, 1f), 0.5f));
-            scene.primitives.Add(new Sphere((0f, 0, -4f), 2f, (1f, 1f, 1f),1f));
-            scene.primitives.Add(new Plane((0, 0, 1f), 5f, (230f / 255f, 230f / 255f, 0), 0));
-            scene.primitives.Add(new Plane((0, -1f, 0), 5f, (200f / 255f, 200f / 255f, 0), 0.5f));
-            scene.primitives.Add(new Plane((1f, 0, 0), 5f, (1f, 1f, 0), 0.5f));
-            scene.primitives.Add(new Plane((-1f, 0, 0), 5f, (1f, 1f, 0), 0.5f));
-            //scene.primitives.Add(new Plane((0, 0, -1f), 5f, (1f, 1f, 1f), 1f));
+            scene.primitives.Add(new Sphere((0f, 0, -6f), 1f, (1f, 1f, 1f), 1f));
+            scene.primitives.Add(new Plane((0, 0, 1f), 5f, (230f / 255f, 230f / 255f, 0), 0, false));
+            scene.primitives.Add(new Plane((0, -1f, 0), 5f, (200f / 255f, 200f / 255f, 0), 0f, true));
+            scene.primitives.Add(new Plane((0, 1f, 0), 10f, (200f / 255f, 200f / 255f, 0), 0f, true));
+            scene.primitives.Add(new Plane((1f, 0, 0), 5f, (1f, 1f, 0), 0.5f, false));
+            scene.primitives.Add(new Plane((-1f, 0, 0), 5f, (1f, 1f, 0), 0.5f, false));
+            scene.primitives.Add(new Plane((0, 0f, -1f), 20f, (200f / 255f, 200f / 255f, 0), 0f, false));
+
 
             scene.lightSources.Add(new Light((4f, 1f, 0f), (1f, 1f, 1f)));
             scene.lightSources.Add(new Light((-2f, 2f, -1f), (1f, 1f, 1f)));
@@ -70,8 +72,6 @@ namespace RayTracer
 
                     screen.Plot(i, j, (int)(FinalColor.X * 255) + ((int)(FinalColor.Y * 255) << 8) + ((int)(FinalColor.Z * 255) << 16)); //translate to correct BGR
                 }
-
-
             }
             //Debug();
         }
@@ -79,27 +79,28 @@ namespace RayTracer
         public void Debug()
         {
             //draw camera 3x3
-            screen.pixels[screen.TX(camera.position.X) + screen.TY(camera.position.Z)*screen.width] = 255;
+            screen.pixels[screen.TX(camera.position.X) + screen.TY(camera.position.Z) * screen.width] = 255;
             screen.Box(screen.TX(camera.position.X) - 1, screen.TY(camera.position.Z) - 1, screen.TX(camera.position.X) + 1, screen.TY(camera.position.Z) + 1, 255);
 
             //draw screenplane
-            screen.Line(screen.TX(camera.screenCorners[0].X), screen.TY(camera.screenCorners[0].Z), screen.TX(camera.screenCorners[1].X), screen.TY(camera.screenCorners[1].Z),255*255*255);
+            screen.Line(screen.TX(camera.screenCorners[0].X), screen.TY(camera.screenCorners[0].Z), screen.TX(camera.screenCorners[1].X), screen.TY(camera.screenCorners[1].Z), 255 * 255 * 255);
 
 
             //draw primitives
-            /*for (int i = 0; i< scene.primitives.Count; i++)
+            for (int i = 0; i < scene.primitives.Count; i++)
             {
-                Primitive p = scene.primitives[i];
-                if (p = Sphere) dynamiccast
+                Primitive p = scene.primitives[i]; 
+
+                if (p is Sphere sphere)
                 {
                     for (int j = 0; j < 360; j++)
                     {
-                        screen.pixels[screen.TX(p.Position.X + (p.Radius * (float)Math.Cos(j))) + screen.TY(p.Position.Z + (p.Radius * (float)Math.Sin(j))) * screen.width] = 255;
+                        screen.pixels[screen.TX(sphere.Position.X + (sphere.Radius * (float)Math.Cos(j))) + screen.TY(sphere.Position.Z + (sphere.Radius * (float)Math.Sin(j))) * screen.width] = 255;
                     }
                 }
-            }*/
+            }
 
-            for (float i = 0; i <= (float)screen.width + 0.1f; i += (float)screen.width / 40f)
+            for (float i = 0; i <= (float)screen.width + 0.1f; i += (float)screen.width / 20f)
             {
                 Ray primaryRay = new Ray(camera.position, camera.RayDirection(i / (float)screen.width, 0.5f));
                 foreach (Primitive primitive in scene.primitives)
@@ -121,6 +122,25 @@ namespace RayTracer
 
                 foreach (Light light in scene.lightSources)
                 {
+                    Primitive RayPrimitive = primaryRay.Intersection.Primitive;
+                    Vector3 pIntersectionPoint = primaryRay.E + primaryRay.Distance * primaryRay.Direction;
+                    if (RayPrimitive.Specularity == 1f)
+                    {
+                        Vector3 Normal = RayPrimitive.IntersectToNorm(pIntersectionPoint);
+                        Vector3 R = Vector3.Normalize(primaryRay.Direction - 2 * Vector3.Dot(primaryRay.Direction, Normal) * Normal);
+                        Ray reflectionRay = new Ray(pIntersectionPoint, R);
+                        foreach (Primitive primitive in scene.primitives)   //loop through all primitives
+                        {
+                            float Distance = primitive.Intersect(reflectionRay);
+                            if (Distance < reflectionRay.Distance && Distance > 0) //if there is a collision and this collision is closer than the current ray distance it means that this is the first primitive to collide with the ray
+                            {
+                                reflectionRay.Distance = Distance;
+                                reflectionRay.Intersection = new Intersection(Distance, primitive);
+                            }
+                        }
+                        Vector3 rIntersectionPoint = reflectionRay.E + reflectionRay.Distance * reflectionRay.Direction;
+                        screen.Line(screen.TX(reflectionRay.E.X), screen.TY(reflectionRay.E.Z), screen.TX(rIntersectionPoint.X), screen.TY(rIntersectionPoint.Z), 255 * 256 + 255*256*256);
+                    }
                     Vector3 NormalLightDirection = Vector3.Normalize(IntersectionPoint - light.Position);
                     Ray shadowRay = new Ray(light.Position, NormalLightDirection);
 
@@ -135,16 +155,19 @@ namespace RayTracer
                     }
 
                     Vector3 sIntersectionPoint = shadowRay.E + shadowRay.Distance * shadowRay.Direction;
-                    if (shadowRay.Distance > 0 && shadowRay.Distance > (IntersectionPoint - light.Position).Length-0.01f) {
-                        screen.Line(screen.TX(shadowRay.E.X), screen.TY(shadowRay.E.Z), screen.TX(sIntersectionPoint.X), screen.TY(sIntersectionPoint.Z), 255 * 256);
+                    if (shadowRay.Distance > 0 && shadowRay.Distance > (IntersectionPoint - light.Position).Length - 0.01f)
+                    {
+                        screen.Line(screen.TX(shadowRay.E.X), screen.TY(shadowRay.E.Z), screen.TX(sIntersectionPoint.X), screen.TY(sIntersectionPoint.Z), 255 * 256); //shows an uninterrupted line
                     }
                     else
                     {
-                        screen.Line(screen.TX(shadowRay.E.X), screen.TY(shadowRay.E.Z), screen.TX(sIntersectionPoint.X), screen.TY(sIntersectionPoint.Z), 255 * 256 * 256);
+                        screen.Line(screen.TX(shadowRay.E.X), screen.TY(shadowRay.E.Z), screen.TX(sIntersectionPoint.X), screen.TY(sIntersectionPoint.Z), 255 * 256 * 256); //shows an interrupted line
                     }
                 }
             }
         }
+        
+    
 
         public Vector3 RefColor(Ray ray)
         {
@@ -171,7 +194,7 @@ namespace RayTracer
                     return Vector3.Zero;
                 }
 
-                return RayPrimitive.Color * RefColor(reflectionRay); //return the Reflected color combined with the color of the primitive
+                return RayPrimitive.PrimitiveColor(IntersectionPoint) * RefColor(reflectionRay); //return the Reflected color combined with the color of the primitive
             }
             else
             {
@@ -184,7 +207,7 @@ namespace RayTracer
             RecursionCount = 0;
             Vector3 IntersectionPoint = ray.E + ray.Distance * ray.Direction;
             Primitive RayPrimitive = ray.Intersection.Primitive;
-            Vector3 BaseColor = RayPrimitive.Color * 0.08f; //Sets the Basecolor consisting of only the ambient color  
+            Vector3 BaseColor = RayPrimitive.PrimitiveColor(IntersectionPoint) * 0.08f; //Sets the Basecolor consisting of only the ambient color  
             
             foreach (Light light in scene.lightSources) //looping all the lights
             {
@@ -214,7 +237,7 @@ namespace RayTracer
                 if (!InShadow)
                 {
                     float SpecularCoefficient = RayPrimitive.Specularity; //current specular
-                    Vector3 color = RayPrimitive.Color;
+                    Vector3 color = RayPrimitive.PrimitiveColor(IntersectionPoint);
                     Vector3 Normal = RayPrimitive.IntersectToNorm(IntersectionPoint);
 
 

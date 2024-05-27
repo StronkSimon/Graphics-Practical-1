@@ -10,12 +10,11 @@
 
 #### Minimum requirements implemented:  
 [X] Camera: position and orientation controls, field of view in degrees  
-Controls: W for forward, S for backward, A for left, D for right, U for decrease FOV and I for Increase FOV
 [X] Primitives: plane, sphere  
 [X] Lights: at least 2 point lights, additive contribution, shadows without "acne"  
 [X] Diffuse shading: (N.L), distance attenuation  
 [X] Phong shading: (R.V) or (N.H), exponent  
-[ ] Diffuse color texture: only required on the plane primitive, image or procedural, (u,v) texture coordinates  
+[X] Diffuse color texture: only required on the plane primitive, image or procedural, (u,v) texture coordinates  
 [X] Mirror reflection: recursive  
 [ ] Debug visualization: sphere primitives, rays (primary, shadow, reflected, refracted)  
 
@@ -38,3 +37,6 @@ Note: [provide one measurement of speed/time with and without the acceleration s
 ##### Notes:  
 RecursionCap can be modified in the Raytracer class 
 
+Controls: W for forward, S for backward, A for left, D for right, U for decrease FOV and I for Increase FOV
+
+Debug: can be turned on and off by uncommenting at the end of the render function.

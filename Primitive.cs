@@ -15,10 +15,10 @@ namespace RayTracer
 
         public abstract Vector3 IntersectToNorm(Vector3 intersect);
 
-        public abstract Vector3 PrimitiveColor(Primitive primitive, Vector3 intersection);
+        public abstract Vector3 PrimitiveColor(Vector3 intersection);
     }
 
-    public class Sphere : Primitive
+    public class Sphere : Primitive //Sphere primitive
     {
         public Vector3 Position { get; set; }
         public float Radius { get; set; }
@@ -32,32 +32,32 @@ namespace RayTracer
         }
 
         public override float Intersect(Ray ray)
-        {
-            Vector3 c = Position - ray.E;
-            float t = Vector3.Dot(c, ray.Direction);
-            Vector3 q = c - t * ray.Direction;
-            float p2 = q.LengthSquared;
+        {   
+            Vector3 c = Position - ray.E;               //get the vector from the sphere center to the start of the ray
+            float t = Vector3.Dot(c, ray.Direction);    //use the cector c onto the ray direction to find the closest intersection from the ray
+            Vector3 q = c - t * ray.Direction;          //calculate the perpendicular distance vector from the ray to the sphere center
+            float p2 = q.LengthSquared;                 //get the squared length
 
-            if (!(p2 > Radius * Radius))
-            {
+            if (!(p2 > Radius * Radius))                // if the squared perpendicular distance is less than or equal to the squared radius,                                       
+            {                                           // the ray intersects the sphere
                 t -= MathF.Sqrt(Radius * Radius - p2);
-                return t;
+                return t;                               // adjust t taking in mind the distance from the closest intersection
             }
             else
             {
-                return t = ray.Distance;
+                return t = ray.Distance; 
             }
         }
 
         public override Vector3 IntersectToNorm(Vector3 intersect)
         {
-            Vector3 norm = intersect - this.Position;
+            Vector3 norm = intersect - this.Position; //get the normal of the sphere intersectoion
             return Vector3.Normalize(norm);
         }
 
-        public override Vector3 PrimitiveColor(Primitive primitive, Vector3 intersection)
+        public override Vector3 PrimitiveColor(Vector3 intersection)
         {
-            return primitive.Color;
+            return this.Color;
         }
 
 
@@ -67,13 +67,15 @@ namespace RayTracer
     {
         public Vector3 Normal { get; set; }
         public float DistanceToOrigin { get; set; }
+        bool CheckBoard { get; set; }
 
-        public Plane(Vector3 normal, float distanceToOrigin, Vector3 color, float specularity)
+        public Plane(Vector3 normal, float distanceToOrigin, Vector3 color, float specularity, bool checkboard)
         {
             Normal = normal;
             DistanceToOrigin = distanceToOrigin;
             Color = color;
             Specularity = specularity;
+            CheckBoard = checkboard;
         }
 
         public override float Intersect(Ray ray)
@@ -87,71 +89,34 @@ namespace RayTracer
 
         public override Vector3 IntersectToNorm(Vector3 intersect)
         {
-            return Vector3.Normalize(-intersect);
+            return Vector3.Normalize(-intersect); //return the normal
         }
 
-        public override Vector3 PrimitiveColor(Primitive primitive, Vector3 intersection)
+        public override Vector3 PrimitiveColor(Vector3 intersection)
         {
-            float u = intersection.X - 0;
-            float v = intersection.Z - 0;
+            if (CheckBoard)
+            {
+                float u = intersection.X / 1f; //calculate location
+                float v = intersection.Z / 1f;
 
-            
-            return primitive.Color;
+                
+                bool isDark = ((Math.Floor(u) + Math.Floor(v)) % 2) == 0; //check if the current block is dark or light
+
+                
+                if (isDark)
+                {
+                    return this.Color*0.2f; // dark color
+                }
+                else
+                {
+                    return this.Color; // light color
+                }
+            }
+            else
+            {
+                return this.Color; // normal color
+            }
         }
 
     }
-
-    /*
-    public class Triangle : Primitive
-    {
-        public Vector3 V1 { get; set; }
-        public Vector3 V2 { get; set; }
-        public Vector3 V3 { get; set; }
-
-        public Triangle(Vector3 v1, Vector3 v2, Vector3 v3, Vector3 color)
-        {
-            V1 = v1;
-            V2 = v2;
-            V3 = v3;
-            Color = color;
-        }
-
-        public override float Intersect(Ray ray)
-        {
-            const float EPSILON = 0.0000001f;
-            Vector3 edge1, edge2, h, s, q;
-            float a, f, u, v, t;
-
-            edge1 = V2 - V1;
-            edge2 = V3 - V1;
-            h = Vector3.Cross(ray.Direction, edge2);
-            a = Vector3.Dot(edge1, h);
-
-            if (a > -EPSILON && a < EPSILON)
-                return -1;    // This ray is parallel to this triangle.
-
-            f = 1.0f / a;
-            s = ray.E - V1;
-            u = f * Vector3.Dot(s, h);
-
-            if (u < 0.0 || u > 1.0)
-                return -1;
-
-            q = Vector3.Cross(s, edge1);
-            v = f * Vector3.Dot(ray.Direction, q);
-
-            if (v < 0.0 || u + v > 1.0)
-                return -1;
-
-            // At this stage we can compute t to find out where the intersection point is on the line.
-            t = f * Vector3.Dot(edge2, q);
-
-            if (t > EPSILON) // ray intersection
-                return t;
-
-            // This means that there is a line intersection but not a ray intersection.
-            return -1;
-        }
-    }
-    */
 }
