@@ -14,12 +14,12 @@ namespace RayTracer
         // initialize
         public void Init()
         {
-            raytracer.Render();
+            //raytracer.Render();
         }
         // tick: renders one frame
         public void Tick()
         {
-
+            raytracer.Render();
         }
     }
 }

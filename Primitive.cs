@@ -101,6 +101,7 @@ namespace RayTracer
 
     }
 
+    /*
     public class Triangle : Primitive
     {
         public Vector3 V1 { get; set; }
@@ -152,4 +153,5 @@ namespace RayTracer
             return -1;
         }
     }
+    */
 }
