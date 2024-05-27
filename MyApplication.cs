@@ -19,7 +19,7 @@ namespace RayTracer
         // tick: renders one frame
         public void Tick()
         {
-           
+
         }
     }
 }
